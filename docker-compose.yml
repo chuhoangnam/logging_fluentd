@@ -1,0 +1,31 @@
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+    logging:
+      driver: "fluentd"
+      options:
+        tag: nginx
+
+  fluentd:
+    build: ./fluentd
+    user: root
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  elasticsearch:
+    image: elasticsearch:5
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana:5
+    ports:
+      - "5601:5601"
