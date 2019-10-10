@@ -1,0 +1,16 @@
+# ctags file
+tags
+*.tags
+
+# vim file
+*.vim
+
+# .env file
+.env
+.env.*
+!.env.example
+
+# fluentd configuration files
+fluentd/fluentd-conf/conf.d/*
+!fluentd/fluentd-conf/conf.d/.keep
+!fluentd/fluentd-conf/conf.d/keyword.conf.example
