@@ -1,17 +1,12 @@
 version: '3'
+
 services:
-  web:
-    image: nginx
-    ports:
-      - "80:80"
-    logging:
-      driver: "fluentd"
-      options:
-        tag: nginx
 
   fluentd:
     build: ./fluentd
+    container_name: fluentd
     user: root
+    restart: unless-stopped
     volumes:
       - ./fluentd/conf:/fluentd/etc
     ports:
@@ -19,13 +14,27 @@ services:
       - "24224:24224/udp"
 
   elasticsearch:
-    image: elasticsearch:5
+    image: elasticsearch:7.9.2
+    container_name: elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+    depends_on:
+      - fluentd
     expose:
       - 9200
-    ports:
-      - "9200:9200"
 
   kibana:
-    image: kibana:5
+    image: kibana:7.9.2
+    container_name: kibana
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+      - fluentd
     ports:
       - "5601:5601"
+
+networks:
+  default:
+    driver: bridge
+    name: logging-network
