@@ -4,3 +4,7 @@ tags
 
 # vim file
 *.vim
+
+fluentd/fluentd-conf/conf.d/*
+!fluentd/fluentd-conf/conf.d/.keep
+!fluentd/fluentd-conf/conf.d/keyword.conf.example

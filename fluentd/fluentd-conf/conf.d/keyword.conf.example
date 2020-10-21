@@ -1,14 +1,4 @@
-# fluentd/conf/fluent.conf
-
-<source>
-    @type forward
-    port 24224
-    bind 0.0.0.0
-</source>
-
-@include config.d/*.conf
-
-<match **>
+<match keyword.**>
     @type copy
 
     <store>
@@ -16,13 +6,13 @@
         host elasticsearch
         port 9200
         logstash_format true
-        logstash_prefix fluentd
+        logstash_prefix keyword
         flush_interval 1s
     </store>
 
     <store>
         @type file
-        path /var/log/fluent/${tag}/${tag}.log
+        path /var/log/fluent/keyword/${tag}.log
         compress gzip
         <buffer tag>
             timekey 1d

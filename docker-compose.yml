@@ -3,15 +3,14 @@ version: '3'
 services:
 
   fluentd:
-    build: ./fluentd
+    build: $PWD/fluentd
     container_name: fluentd
     user: root
     restart: unless-stopped
     volumes:
-      - ./fluentd/conf:/fluentd/etc
+      - $PWD/fluentd/fluentd-conf:/fluentd/etc
     ports:
       - "24224:24224"
-      - "24224:24224/udp"
 
   elasticsearch:
     image: elasticsearch:7.9.2
@@ -37,4 +36,4 @@ services:
 networks:
   default:
     driver: bridge
-    name: logging-network
+    name: efk-network
